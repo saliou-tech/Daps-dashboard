@@ -527,7 +527,7 @@ def render_page_content(pathname):
                         )],style={'width':'100%','display':'inline-block'}
                         ),
     
-     dcc.Graph(id='feature-graphic')
+    # dcc.Graph(id='feature-graphic')
 
       
 ]
