@@ -516,18 +516,18 @@ def render_page_content(pathname):
     elif pathname == "/page-2":
         
 
-        # return html.Div([
-        #         html.Div([(
-        #             dcc.Dropdown(
-        #                 id='xaxis',
-        #                 options=[{'label':i,'value':i} for i in df1.columns if i.startswith('Combien') ],
-        #                 value='displacement',
-        #                 multi=True
-        #                 )
-        #                 )],style={'width':'100%','display':'inline-block'}
-        #                 ),
+        return html.Div([
+                html.Div([(
+                    dcc.Dropdown(
+                        id='xaxis',
+                        options=[{'label':i,'value':i} for i in df1.columns if i.startswith('Combien') ],
+                        value='displacement',
+                        multi=True
+                        )
+                        )],style={'width':'100%','display':'inline-block'}
+                        ),
     
-    # dcc.Graph(id='feature-graphic')
+     dcc.Graph(id='feature-graphic')
 
       
 ]
