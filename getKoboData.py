@@ -214,8 +214,8 @@ class GetKoboData:
             except:
 
                 E18.append("NaN")
-                print("cette question n'existe pas ")
-                print(E18)
+              #  print("cette question n'existe pas ")
+               # print(E18)
             HF.append(labeled_results[i]['results']['HF']['answer_label'].strip())
 
     # C6.append(labeled_results[i]['results']['C6']['answer_label'].strip())
@@ -322,9 +322,9 @@ class GetKoboData:
             labeled_results[0]['results']['HF']['label'][0:-2].strip(): HF, }
         return pd.DataFrame(data)
 
-kobdata = GetKoboData()
-labeld_results = kobdata.getAllData()
-print(labeld_results)
-data = kobdata.getDapsDataFrame(labeld_results)
-print(data.head())
+# kobdata = GetKoboData()
+# labeld_results = kobdata.getAllData()
+# print(labeld_results)
+# data = kobdata.getDapsDataFrame(labeld_results)
+# print(data.head())
 # print(data.columns)

@@ -3,27 +3,27 @@ import dash_auth
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-from dash_html_components.Hr import Hr
-import dash_table 
+#from dash_html_components.Hr import Hr
+#import dash_table 
 from getKoboData import GetKoboData
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 #from getKoboData import GetKoboData
-import numpy as np
-import pandas as pd
-from plotly.offline import iplot 
-import plotly as py
-import cufflinks as cf 
+#import numpy as np
+#import pandas as pd
+#from plotly.offline import iplot 
+#import plotly as py
+#import cufflinks as cf 
 import plotly.express as px
 import plotly.graph_objects as go
-import plotly.figure_factory as ff
-from plotly.subplots import make_subplots
-import folium
+#import plotly.figure_factory as ff
+#from plotly.subplots import make_subplots
+#import folium
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import math
-import random
-from datetime import timedelta
+#import numpy as np
+#import matplotlib.pyplot as plt
+#import math
+#import random
+#from datetime import timedelta
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -33,6 +33,9 @@ dth='#ff2e63'
 rec='#21bf73'
 act='#fe9801'
 import plotly.express as px
+from whitenoise import WhiteNoise
+
+
 
 #definition des controls
 # the style arguments for the sidebar.
@@ -45,7 +48,6 @@ import plotly.express as px
 
 kobdata=GetKoboData()
 labeld_results=kobdata.getAllData()
-print(labeld_results)
 df1=kobdata.getDapsDataFrame(labeld_results)
 df1.rename(columns={'Quel est le statut de votre structure  ?':'statut'}, inplace=True)
 
@@ -69,7 +71,9 @@ fig3.add_trace(go.Scatter(x=df_medaille['Quel est le nom de votre structure'],y=
 fig3.add_trace(go.Scatter(x=df_medaille['Quel est le nom de votre structure'],y=df_medaille["Combien de médailles d'or avez-vous gagné par les hommes niveau international"] ,mode='lines',name="Combien de médailles d'or avez-vous gagné par les hommes niveau international",line=dict(color="Red",width=4))),
 fig3.update_layout(title='Nombre de medailles gagné par les structures ' ,xaxis_tickfont_size=14,yaxis=dict(title='Nombre de medailles  '))   
 section =df1[['Quel est le nom de votre structure','La date de création de votre structure (jj/mm/aa)',"Quelle est la durée de votre mandant (nombre d'années) "]]
-fig = px.bar(df1, x="Quel est le nom de votre structure", y="Quel est le nombre de membres dans le comité directeur ?", color="Quel est le nom de votre structure", barmode="group",width=800,title='Nombre de membres dans lee comite directeur')
+fig = px.bar(df1, x="Quel est le nom de votre structure", y="Quel est le nombre de membres dans le comité directeur ?", color="Quel est le nom de votre structure", barmode="group",width=800,
+
+title='Nombre de membres dans lee comite directeur')
 
 count_locaux=df1['Votre structure dispose-t-elle de locaux'].value_counts(sort=True, ascending=True).reset_index()
 fig4 = px.pie(count_locaux, values='Votre structure dispose-t-elle de locaux',names='index',title='Locaux')
@@ -78,6 +82,34 @@ fig4 = px.pie(count_locaux, values='Votre structure dispose-t-elle de locaux',na
 
 count_sexe=df1['Etes vous'].value_counts(sort=True, ascending=True).reset_index()
 fig5 = px.pie(count_sexe, values='Etes vous',names='index',title='Repartition des Sexes')
+
+
+##############disposition de structure by statut########""
+##############""oui structure##########
+count_locaux1=df1[["statut",'Votre structure dispose-t-elle de locaux']]
+count_locaux_oui=count_locaux1['Votre structure dispose-t-elle de locaux'].astype(str).str.contains('OUI')
+df_oui=count_locaux1[count_locaux_oui]
+df_oui['OUI']=df_oui['Votre structure dispose-t-elle de locaux']
+oui_strucuture=df_oui.groupby("statut")['OUI'].count().reset_index()
+########non structure ####################"
+count_locaux_non=count_locaux1['Votre structure dispose-t-elle de locaux'].astype(str).str.contains('NON')
+df_non=count_locaux1[count_locaux_non]
+df_non['NON']=df_non['Votre structure dispose-t-elle de locaux']
+non_strucuture=df_non.groupby("statut")['NON'].count().reset_index()
+locaux_by_structure = pd.merge(oui_strucuture, non_strucuture)
+OUI=go.Bar(
+    x=locaux_by_structure['statut'],
+    y=locaux_by_structure['OUI'],
+    name="OUI"
+)
+NON=go.Bar(
+    x=locaux_by_structure['statut'],
+    y=locaux_by_structure['NON'],
+    name="NON"
+)
+data=[OUI,NON]
+layout=go.Layout(title='Possesion de structure en fonction de locaux ')
+figure_bar=go.Figure(data=data,layout=layout ,  )
 SIDEBAR_STYLE = {
     'position': 'fixed',
     'top': 0,
@@ -87,7 +119,10 @@ SIDEBAR_STYLE = {
     'padding': '20px 10px',
     'background-color': '#1f2c56'
 }
-
+test=df1.groupby("statut").count().reset_index()
+temp=test.melt(id_vars='statut',value_vars=["Combien de médailles d'or avez-vous gagné niveau international","Combien de médailles d'or avez-vous gagné par les femmes niveau international","Combien de médailles d'or avez-vous gagné par les hommes niveau international",],var_name="medailles",value_name='Count')
+fig_test=px.area(temp,x='statut',y='Count',color='medailles',height=400,title ='medailles par structure',color_discrete_sequence=[rec,dth,act])
+fig_test.update_layout(xaxis_rangeslider_visible=True)
 # the style arguments for the main content page.
 CONTENT_STYLE = {
     'margin-left': '21%',
@@ -106,126 +141,113 @@ CARD_TEXT_STYLE = {
     'textAlign': 'center',
     'color': '#0074D9'
 }
-# card_container={
-#     'border-radius': '5px',
-#     'background-color': '#1f2c56',
-#     'margin': '25px',
-#     'padding': '15px',
-#     'position': 'relative',
-#     'box-shadow': '2px 2px 2px #1f2c56'
-# }
-# kobdata=GetKoboData()
-# labeld_results=kobdata.getAllData()
-# print(labeld_results)
-# data=kobdata.getDapsDataFrame(labeld_results)
-# print(data.head())
-controls = dbc.FormGroup(
-    [
-        html.P('Dropdown', style={
-            'textAlign': 'center'
-        }),
-        dcc.Dropdown(
-            id='dropdown',
-            options=[{
-                'label': 'Value One',
-                'value': 'value1'
-            }, {
-                'label': 'Value Two',
-                'value': 'value2'
-            },
-                {
-                    'label': 'Value Three',
-                    'value': 'value3'
-                }
-            ],
-            value=['value1'],  # default value
-            multi=True
-        ),
-        html.Br(),
-        html.P('Range Slider', style={
-            'textAlign': 'center'
-        }),
-        dcc.RangeSlider(
-            id='range_slider',
-            min=0,
-            max=20,
-            step=0.5,
-            value=[5, 15]
-        ),
-        html.P('Check Box', style={
-            'textAlign': 'center'
-        }),
-        dbc.Card([dbc.Checklist(
-            id='check_list',
-            options=[{
-                'label': 'Value One',
-                'value': 'value1'
-            },
-                {
-                    'label': 'Value Two',
-                    'value': 'value2'
-                },
-                {
-                    'label': 'Value Three',
-                    'value': 'value3'
-                }
-            ],
-            value=['value1', 'value2'],
-            inline=True
-        )]),
-        html.Br(),
-        html.P('Radio Items', style={
-            'textAlign': 'center'
-        }),
-        dbc.Card([dbc.RadioItems(
-            id='radio_items',
-            options=[{
-                'label': 'Value One',
-                'value': 'value1'
-            },
-                {
-                    'label': 'Value Two',
-                    'value': 'value2'
-                },
-                {
-                    'label': 'Value Three',
-                    'value': 'value3'
-                }
-            ],
-            value='value1',
-            style={
-                'margin': 'auto'
-            }
-        )]),
-        html.Br(),
-        dbc.Button(
-            id='submit_button',
-            n_clicks=0,
-            children='Submit',
-            color='primary',
-            block=True
-        ),
-    ]
-)
+# controls = dbc.FormGroup(
+#     [
+#         html.P('Dropdown', style={
+#             'textAlign': 'center'
+#         }),
+#         dcc.Dropdown(
+#             id='dropdown',
+#             options=[{
+#                 'label': 'Value One',
+#                 'value': 'value1'
+#             }, {
+#                 'label': 'Value Two',
+#                 'value': 'value2'
+#             },
+#                 {
+#                     'label': 'Value Three',
+#                     'value': 'value3'
+#                 }
+#             ],
+#             value=['value1'],  # default value
+#             multi=True
+#         ),
+#         html.Br(),
+#         html.P('Range Slider', style={
+#             'textAlign': 'center'
+#         }),
+#         dcc.RangeSlider(
+#             id='range_slider',
+#             min=0,
+#             max=20,
+#             step=0.5,
+#             value=[5, 15]
+#         ),
+#         html.P('Check Box', style={
+#             'textAlign': 'center'
+#         }),
+#         dbc.Card([dbc.Checklist(
+#             id='check_list',
+#             options=[{
+#                 'label': 'Value One',
+#                 'value': 'value1'
+#             },
+#                 {
+#                     'label': 'Value Two',
+#                     'value': 'value2'
+#                 },
+#                 {
+#                     'label': 'Value Three',
+#                     'value': 'value3'
+#                 }
+#             ],
+#             value=['value1', 'value2'],
+#             inline=True
+#         )]),
+#         html.Br(),
+#         html.P('Radio Items', style={
+#             'textAlign': 'center'
+#         }),
+#         dbc.Card([dbc.RadioItems(
+#             id='radio_items',
+#             options=[{
+#                 'label': 'Value One',
+#                 'value': 'value1'
+#             },
+#                 {
+#                     'label': 'Value Two',
+#                     'value': 'value2'
+#                 },
+#                 {
+#                     'label': 'Value Three',
+#                     'value': 'value3'
+#                 }
+#             ],
+#             value='value1',
+#             style={
+#                 'margin': 'auto'
+#             }
+#         )]),
+#         html.Br(),
+#         dbc.Button(
+#             id='submit_button',
+#             n_clicks=0,
+#             children='Submit',
+#             color='primary',
+#             block=True
+#         ),
+#     ]
+# )
 ###creation sidebar
-sidebar = html.Div(
-    [
-        html.H2('DAPS', style=TEXT_STYLE),
-        html.Hr(),
+# sidebar = html.Div(
+#     [
+#         html.H2(html.Img(id="logo", src=app.get_asset_url("dash-logo-new.png"),), style=TEXT_STYLE),
+#         html.Hr(),
 
-        dbc.Nav(
-            [
-                dbc.NavLink("Home", href="/", active="exact",),
-                dbc.NavLink("Base de Donnés ", href="/page-1", active="exact"),
-                dbc.NavLink("Visualisation graphique", href="/page-2", active="exact"),
-            ],
-            vertical=True,
-            pills=True,
-        ),
-        #controls
-    ],
-    style=SIDEBAR_STYLE,
-)
+#         dbc.Nav(
+#             [
+#                 dbc.NavLink("Home", href="/", active="exact",),
+#                 # dbc.NavLink("Base de Donnés ", href="/page-1", active="exact"),
+#                 # dbc.NavLink("Visualisation graphique", href="/page-2", active="exact"),
+#             ],
+#             vertical=True,
+#             pills=True,
+#         ),
+#         #controls
+#     ],
+#     style=SIDEBAR_STYLE,
+# )
 ##first  row
 content_first_row = dbc.Row([
     dbc.Col(
@@ -269,14 +291,15 @@ content_first_row = dbc.Row([
                        'fontSize': 40}
                    ),
  
-            html.P('new:  ' + f"{70:,.0f} "
-                   + ' (' + str(round(56,344)) + '%)',
-                   style={
-                       'textAlign': 'center',
-                       'color': 'orange',
-                       'fontSize': 15,
-                       'margin-top': '-18px'}
-                   )], className="card_container",
+            # html.P(':  ' + f"{:,.0f} "
+            #        + ' (' + str(round(56,344)) + '%)',
+            #        style={
+            #            'textAlign': 'center',
+            #            'color': 'orange',
+            #            'fontSize': 15,
+            #            'margin-top': '-18px'}
+            #        )
+                   ], className="card_container",
         ),
         md=3 
     ),
@@ -348,17 +371,7 @@ content_second_row = dbc.Row(
   figure=fig2
 
 
-#              figure ={'data':[
-# go.Scatter(x=confirmed['Date'],y=confirmed['Confirmed'] ,mode='lines',name="confirmed",line=dict(color="Orange",width=4)),
-# go.Scatter(x=recovered['Date'],y=recovered['Recovered'] ,mode='lines',name="Recovered",line=dict(color="Green",width=4)),
-# go.Scatter(x=deaths['Date'],y=deaths['Deaths'] ,mode='lines',name="Deaths",line=dict(color="Red",width=4))
-# #fig.update_layout(title='wordwide covid-19 caes ' ,xaxis_tickfont_size=14,yaxis=dict(title='Number of cases ')),
-#             ]   
-#             }
-            # figure={
-            #     'data':[
-            #         px.area(temp,x='Date',y='Count',color='Case',height=400,title ='cases over time',color_discrete_sequence=[rec,dth,act]),]
-            # }
+
             ), md=4
         ),
         dbc.Col(
@@ -372,12 +385,7 @@ content_third_row = dbc.Row(
         dbc.Col(
             dcc.Graph(id='graph_4',
             figure =fig
-#             {'data':[
-# go.Scatter(x=confirmed['Date'],y=confirmed['Confirmed'] ,mode='lines',name="confirmed",line=dict(color="Orange",width=4)),
-# go.Scatter(x=recovered['Date'],y=recovered['Recovered'] ,mode='lines',name="Recovered",line=dict(color="Green",width=4)),
-# go.Scatter(x=deaths['Date'],y=deaths['Deaths'] ,mode='lines',name="Deaths",line=dict(color="Red",width=4))
-# #fig.update_layout(title='wordwide covid-19 caes ' ,xaxis_tickfont_size=14,yaxis=dict(title='Number of cases ')),
-#             ] } 
+
              ), md=12,
         )
     ]
@@ -392,110 +400,110 @@ content_fourth_row = dbc.Row(
         
     ]
 )
-content = html.Div(id="page-content",
 
-  
-    style=CONTENT_STYLE
+content_five_row = dbc.Row(
+    [
+        dbc.Col(
+            dcc.Graph(id='graph_6',figure=figure_bar), md=12
+        ),
+        #  dbc.Col(
+        #     dcc.Graph(id='graph_7',figure=fig_test), md=6
+        # ),
+        
+        
+    ]
+)
+
+content_six_row = dbc.Row(
+    [
+        # dbc.Col(
+        #     dcc.Graph(id='graph_6',figure=figure_bar), md=6
+        # ),
+         dbc.Col(
+            dcc.Graph(id='graph_7',figure=fig_test), md=12
+        ),
+        
+        
+    ]
+)
+content = html.Div(id="page-content",style=CONTENT_STYLE
 )
 
 app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+sidebar = html.Div(
+    [
+        html.H2(html.Img(id="logo", src="static/logo.PNG",width="auto",height="150"), style=TEXT_STYLE),
+        html.Hr(),
+
+        dbc.Nav(
+            [
+                dbc.NavLink("Home", href="/", active="exact",),
+                # dbc.NavLink("Base de Donnés ", href="/page-1", active="exact"),
+                dbc.NavLink("Visualisation graphique", href="/page-2", active="exact"),
+            ],
+            vertical=True,
+            pills=True,
+        ),
+        #controls
+    ],
+    style=SIDEBAR_STYLE,
+)
 app.layout = html.Div([ dcc.Location(id="url"),sidebar, content])
 VALID_USERNAME_PASSWORD_PAIRS = [
-    ['hello', 'world']]
+    ['update', 'update']]
 auth = dash_auth.BasicAuth(
     app,
     VALID_USERNAME_PASSWORD_PAIRS
 )
 server=app.server
+server.wsgi_app = WhiteNoise(server.wsgi_app, root='static/')
+
 #####calback for grphe 1
 
-# @app.callback(
-#     Output('graph_1', 'figure'),
-#     [Input('submit_button', 'n_clicks')],
-#     [State('dropdown', 'value'), State('range_slider', 'value'), State('check_list', 'value'),
-#      State('radio_items', 'value')
-#      ])
-# def update_graph_1(n_clicks, dropdown_value, range_slider_value, check_list_value, radio_items_value):
-#     print(n_clicks)
-#     print(dropdown_value)
-#     print(range_slider_value)
-#     print(check_list_value)
-#     print(radio_items_value)
-#     fig = {
-#         'data': [{
-#             'x': data['Combien de médailles d\'argent avez-vous gagné niveau international :'],
-#             'y': [3, 4, 5]
-#         }]
-#     }
-#     return fig
-
-#card calback
-# @app.callback(
-#     Output('card_title_1', 'children'),
-#     [Input('submit_button', 'n_clicks')],
-#     [State('dropdown', 'value'), State('range_slider', 'value'), State('check_list', 'value'),
-#      State('radio_items', 'value')
-#      ])
-# def update_card_title_1(n_clicks, dropdown_value, range_slider_value, check_list_value, radio_items_value):
-#     print(n_clicks)
-#     print(dropdown_value)
-#     print(range_slider_value)
-#     print(check_list_value)
-#     print(radio_items_value)  # Sample data and figure
-#     return 'Nombre de fédération '
 
 
-# @app.callback(
-#     Output('card_text_1', 'children'),
-#     [Input('submit_button', 'n_clicks')],
-#     [State('dropdown', 'value'), State('range_slider', 'value'), State('check_list', 'value'),
-#      State('radio_items', 'value')
-#      ])
-# def update_card_text_1(n_clicks, dropdown_value, range_slider_value, check_list_value, radio_items_value):
-#     print(n_clicks)
-#     print(dropdown_value)
-#     print(range_slider_value)
-#     print(check_list_value)
-#     print(radio_items_value)  # Sample data and figure
-#     return '108'
+
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
         return html.Div(
               [
-        html.H2('Dashboard de visualisations des fédérations du sénégal', style=TEXT_STYLE),
+        html.H2('DIRECTION DES ACTIVITES PHYSIQUE ET SPORTIVES', style=TEXT_STYLE),
         html.Hr(),
         content_first_row,
-         content_second_row,
+        html.Hr(),
+        content_second_row,
         content_third_row,
-
-        content_fourth_row
+        content_fourth_row,
+        content_five_row,
+        content_six_row
     ],
         )
-    elif pathname == "/page-1":
-        return html.Div([dbc.Row(
-            dbc.Col(
-                html.Div(
-                    dash_table.DataTable(
+    # elif pathname == "/page-1":
+    #     return html.Div([dbc.Row(
+    #         dbc.Col(
+    #             html.Div(
+    #                 dash_table.DataTable(
                         
-                        style_table={'overflowX': 'auto'},
-    style_cell={
-        'height': 'auto',
-        # all three widths are needed
-        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
-        'whiteSpace': 'normal'
-    },
-                        id='table',
-         columns=[{"name": i, "id": i} for i in df1.columns],
-         data=df1.to_dict("records"))
-         )
+    #                     style_table={'overflowX': 'auto'},
+    # style_cell={
+    #     'height': 'auto',
+    #     # all three widths are needed
+    #     'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
+    #     'whiteSpace': 'normal'
+    # },
+    #                     id='table',
+    #      columns=[{"name": i, "id": i} for i in df1.columns],
+    #      data=df1.to_dict("records"))
+    #      )
 
-         )
+    #      )
          
-         )
-        ]
-        )
+    #      )
+    #     ]
+    #     )
          #return   html.Div(dash_table.DataTable(
         #  id='table',
         #  columns=[{"name": i, "id": i} for i in df.columns],
@@ -506,7 +514,26 @@ def render_page_content(pathname):
         # },
     #))
     elif pathname == "/page-2":
-        return html.P("Oh cool, this is page 2!")
+        
+
+        return html.Div([
+                html.Div([(
+                    dcc.Dropdown(
+                        id='xaxis',
+                        options=[{'label':i,'value':i} for i in df1.columns if i.startswith('Combien') ],
+                        value='displacement',
+                        multi=True
+                        )
+                        )],style={'width':'100%','display':'inline-block'}
+                        ),
+    
+     dcc.Graph(id='feature-graphic')
+
+      
+]
+       
+)
+   
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
@@ -515,6 +542,22 @@ def render_page_content(pathname):
             html.P(f"The pathname {pathname} was not recognised..."),
         ]
     )
+
+# @app.callback(
+#             Output('feature-graphic','figure'),
+#             [Input('xaxis','value')]
+#         )
+# def update_graph(xaxis_valus):
+#     print(xaxis_valus)
+#     temp=test.melt(id_vars='statut',value_vars=[xaxis_valus],var_name=xaxis_valus,value_name='Count')
+#     fig_test2=px.area(temp,x='statut',y='Count',color=xaxis_valus,height=400,title ='medailles par structure',color_discrete_sequence=[rec,dth,act])
+#     fig_test.update_layout(xaxis_rangeslider_visible=True)
+#     #fig.show()
+#     return {'data':[  
+#            px.area(temp,x='statut',y='Count',color=xaxis_valus,height=400,title ='medailles par structure',color_discrete_sequence=[rec,dth,act])
+#             ]}
+
+
 
 if __name__ == "__main__":
     app.run_server(debug=True,port=8040)
