@@ -34,7 +34,7 @@ rec='#21bf73'
 act='#fe9801'
 import plotly.express as px
 from whitenoise import WhiteNoise
-
+import dash_table
 
 
 #definition des controls
@@ -77,7 +77,8 @@ title='Nombre de membres dans lee comite directeur')
 
 count_locaux=df1['Votre structure dispose-t-elle de locaux'].value_counts(sort=True, ascending=True).reset_index()
 fig4 = px.pie(count_locaux, values='Votre structure dispose-t-elle de locaux',names='index',title='Locaux')
-
+ 
+statut = ['FEDERATION','CNP','CNG']
 
 
 count_sexe=df1['Etes vous'].value_counts(sort=True, ascending=True).reset_index()
@@ -429,7 +430,7 @@ content_six_row = dbc.Row(
 content = html.Div(id="page-content",style=CONTENT_STYLE
 )
 
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True,)
 
 sidebar = html.Div(
     [
@@ -519,21 +520,27 @@ def render_page_content(pathname):
         return html.Div([
                 html.Div([(
                     dcc.Dropdown(
-                        id='xaxis',
-                        options=[{'label':i,'value':i} for i in df1.columns if i.startswith('Combien') ],
+                        id='demo-dropdown',
+                        options=[{'label':i,'value':i} for i in statut],
                         value='displacement',
-                        multi=True
+            
                         )
                         )],style={'width':'100%','display':'inline-block'}
                         ),
-    
-     dcc.Graph(id='feature-graphic')
+                        dcc.Dropdown(
+                        id='dd-output-container',
+                     
+                        ),
+                        #dash_table.DataTable(
+   # id='data',columns=[{"name": i, "id": i} for i in df1.columns],
+   
 
+  html.Div(id="page-content1",style=CONTENT_STYLE)  
       
 ]
        
-)
-   
+),
+    
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
@@ -556,8 +563,38 @@ def render_page_content(pathname):
 #     return {'data':[  
 #            px.area(temp,x='statut',y='Count',color=xaxis_valus,height=400,title ='medailles par structure',color_discrete_sequence=[rec,dth,act])
 #             ]}
+@app.callback(
+      dash.dependencies.Output('dd-output-container', 'options'),
+                                    [dash.dependencies.Input('demo-dropdown', 'value')])
+def update_output(value):
+
+     #print(value)
+     ##nbr_enquete_par_jour=df5.groupby("Date").count()['nombre enquetes'].reset_index()
+
+     #fig8 = px.bar(nbr_enquete_par_jour, x='Date', y='nombre enquetes',color='nombre enquetes',title="Nombre d'enquetes par jour")
+     df00=df1[['statut','Quel est le nom de votre structure']]
+     df0=df00[df00['statut'] == value]
+     df11=df0['Quel est le nom de votre structure']
+     return  [{"label":i,"value":i} for i in df11]
 
 
+@app.callback(
+      dash.dependencies.Output('page-content1', 'children'),
+                                    [dash.dependencies.Input('dd-output-container', 'value')])
+def update_output_1(value):
+
+     #print(value)
+     ##nbr_enquete_par_jour=df5.groupby("Date").count()['nombre enquetes'].reset_index()
+
+     #fig8 = px.bar(nbr_enquete_par_jour, x='Date', y='nombre enquetes',color='nombre enquetes',title="Nombre d'enquetes par jour")
+    # df00=df1[['statut','Quel est le nom de votre structure']]
+     #df0=df00[df00['statut'] == value]
+     df11=df1[df1['Quel est le nom de votre structure']==value]
+     #return  df11.to_dict('records')
+     
+
+     
+#####second row
 
 if __name__ == "__main__":
     app.run_server(debug=True,port=8040)
