@@ -83,6 +83,25 @@ statut = ['FEDERATION','CNP','CNG']
 
 count_sexe=df1['Etes vous'].value_counts(sort=True, ascending=True).reset_index()
 fig5 = px.pie(count_sexe, values='Etes vous',names='index',title='Repartition des Sexes')
+##################NOMBRE OF CNP ,CNG,FEDERATION###########"# 
+
+
+NOMBRE_CNP=0
+try:
+    NOMBRE_CNP=count_statut['CNP']
+except:
+    NOMBRE_CNP=0
+
+NOMBRE_CNG=0
+try:
+    NOMBRE_CNG=count_statut['CNG']
+except:
+    NOMBRE_CNG=0
+NOMBRE_FEDERATION=0
+try:
+    NOMBRE_FEDERATION=count_statut['FEDERATION']
+except:
+    NOMBRE_FEDERATION=0
 
 
 ##############disposition de structure by statut########""
@@ -259,14 +278,14 @@ content_first_row = dbc.Row([
                         'color': 'white'}
                     ),
  
-            html.P(f"{count_statut['FEDERATION']:,.0f}",
+            html.P(f"{NOMBRE_FEDERATION:,.0f}",
                    style={
                        'textAlign': 'center',
                        'color': 'orange',
                        'fontSize': 40}
                    ),
  
-            html.P(' ' + f"{(count_statut['FEDERATION']/len(df1.index)*100):,.0f} "
+            html.P(' ' + f"{(NOMBRE_FEDERATION/len(df1.index)*100):,.0f} "
                    + '%',
                    style={
                        'textAlign': 'center',
@@ -312,14 +331,14 @@ content_first_row = dbc.Row([
                         'color': 'white'}
                     ),
  
-            html.P(f"{count_statut['CNP']:,.0f}",
+            html.P(f"{NOMBRE_CNP:,.0f}",
                    style={
                        'textAlign': 'center',
                        'color': 'orange',
                        'fontSize': 40}
                    ),
  
-            html.P(' ' + f"{(count_statut['CNP']/len(df1.index)*100):,.0f} "
+            html.P(' ' + f"{(NOMBRE_CNP/len(df1.index)*100):,.0f} "
                    + '%',
                    style={
                        'textAlign': 'center',
@@ -338,14 +357,14 @@ content_first_row = dbc.Row([
                         'color': 'white'}
                     ),
  
-            html.P(f"{count_statut['CNG']:,.0f}",
+            html.P(f"{NOMBRE_CNG:,.0f}",
                    style={
                        'textAlign': 'center',
                        'color': 'orange',
                        'fontSize': 40}
                    ),
  
-            html.P(' ' + f"{(count_statut['CNG']/len(df1.index)*100):,.0f} "
+            html.P(' ' + f"{(NOMBRE_CNG/len(df1.index)*100):,.0f} "
                    + '%',
                    style={
                        'textAlign': 'center',
