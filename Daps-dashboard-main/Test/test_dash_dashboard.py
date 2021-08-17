@@ -277,85 +277,85 @@ content_first_row = dbc.Row([
         ),
         md=3 
     ),
-     dbc.Col(
-       html.Div([
-            html.H6(children='Le nombre de femmes actives élèves arbitres:',
-                    style={
-                        'textAlign': 'center',
-                        'color': 'white'}
-                    ),
+    #  dbc.Col(
+    #    html.Div([
+    #         html.H6(children='Le nombre de femmes actives élèves arbitres:',
+    #                 style={
+    #                     'textAlign': 'center',
+    #                     'color': 'white'}
+    #                 ),
  
-            html.P(f"{nbre:,.0f}",
-                   style={
-                       'textAlign': 'center',
-                       'color': 'orange',
-                       'fontSize': 40}
-                   ),
+    #         html.P(f"{nbre:,.0f}",
+    #                style={
+    #                    'textAlign': 'center',
+    #                    'color': 'orange',
+    #                    'fontSize': 40}
+    #                ),
  
-            # html.P(':  ' + f"{:,.0f} "
-            #        + ' (' + str(round(56,344)) + '%)',
-            #        style={
-            #            'textAlign': 'center',
-            #            'color': 'orange',
-            #            'fontSize': 15,
-            #            'margin-top': '-18px'}
-            #        )
-                   ], className="card_container",
-        ),
-        md=3 
-    ),
-     dbc.Col(
-      html.Div([
-            html.H6(children='Nombre de CNP',
-                    style={
-                        'textAlign': 'center',
-                        'color': 'white'}
-                    ),
+    #         # html.P(':  ' + f"{:,.0f} "
+    #         #        + ' (' + str(round(56,344)) + '%)',
+    #         #        style={
+    #         #            'textAlign': 'center',
+    #         #            'color': 'orange',
+    #         #            'fontSize': 15,
+    #         #            'margin-top': '-18px'}
+    #         #        )
+    #                ], className="card_container",
+    #     ),
+    #     md=3 
+    # ),
+    #  dbc.Col(
+    #   html.Div([
+    #         html.H6(children='Nombre de CNP',
+    #                 style={
+    #                     'textAlign': 'center',
+    #                     'color': 'white'}
+    #                 ),
  
-            html.P(f"{count_statut['CNP']:,.0f}",
-                   style={
-                       'textAlign': 'center',
-                       'color': 'orange',
-                       'fontSize': 40}
-                   ),
+    #         html.P(f"{count_statut['CNP']:,.0f}",
+    #                style={
+    #                    'textAlign': 'center',
+    #                    'color': 'orange',
+    #                    'fontSize': 40}
+    #                ),
  
-            html.P(' ' + f"{(count_statut['CNP']/len(df1.index)*100):,.0f} "
-                   + '%',
-                   style={
-                       'textAlign': 'center',
-                       'color': 'orange',
-                       'fontSize': 15,
-                       'margin-top': '-18px'}
-                   )], className="card_container",
-        ),
-        md=3 
-    ),
-     dbc.Col(
-       html.Div([
-            html.H6(children='Nombre de CNG',
-                    style={
-                        'textAlign': 'center',
-                        'color': 'white'}
-                    ),
+    #         html.P(' ' + f"{(count_statut['CNP']/len(df1.index)*100):,.0f} "
+    #                + '%',
+    #                style={
+    #                    'textAlign': 'center',
+    #                    'color': 'orange',
+    #                    'fontSize': 15,
+    #                    'margin-top': '-18px'}
+    #                )], className="card_container",
+    #     ),
+    #     md=3 
+    # ),
+    #  dbc.Col(
+    #    html.Div([
+    #         html.H6(children='Nombre de CNG',
+    #                 style={
+    #                     'textAlign': 'center',
+    #                     'color': 'white'}
+    #                 ),
  
-            html.P(f"{count_statut['CNG']:,.0f}",
-                   style={
-                       'textAlign': 'center',
-                       'color': 'orange',
-                       'fontSize': 40}
-                   ),
+    #         html.P(f"{count_statut['CNG']:,.0f}",
+    #                style={
+    #                    'textAlign': 'center',
+    #                    'color': 'orange',
+    #                    'fontSize': 40}
+    #                ),
  
-            html.P(' ' + f"{(count_statut['CNG']/len(df1.index)*100):,.0f} "
-                   + '%',
-                   style={
-                       'textAlign': 'center',
-                       'color': 'orange',
-                       'fontSize': 15,
-                       'margin-top': '-18px'}
-                   )], className="card_container",
-        ),
-        md=3 
-    ),
+    #         html.P(' ' + f"{(count_statut['CNG']/len(df1.index)*100):,.0f} "
+    #                + '%',
+    #                style={
+    #                    'textAlign': 'center',
+    #                    'color': 'orange',
+    #                    'fontSize': 15,
+    #                    'margin-top': '-18px'}
+    #                )], className="card_container",
+    #     ),
+    #     md=3 
+    # ),
     
 ])
 #####second row
