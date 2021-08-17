@@ -7,7 +7,7 @@ class GetKoboData:
 
     def __init__(self):
         self.KOBO_TOKEN = "195930fa6955af494ccd95acc9d8e5e8e51e2796"
-        self.kobo = KoboExtractor(
+        self.kobo = KoboExtractor( 
             self.KOBO_TOKEN, 'https://kobo.humanitarianresponse.info/api/v2', debug=True)
 
     def getAllData(self):
@@ -113,20 +113,20 @@ class GetKoboData:
                     labeled_results[i]['results']['D6_002']['answer_label'])
             D7_003.append(labeled_results[i]
                           ['results']['D7_003']['answer_label'])
-            if(labeled_results[i]['results']['D7_003']['answer_label'] == "Non"):
-                D7_004.append("NA")
+           # if(labeled_results[i]['results']['D7_003']['answer_label'] == "Non"):
+             #   D7_004.append("NA")
 
-            else:
-                D7_004.append(
-                    labeled_results[i]['results']['D7_004']['answer_label'])
+           # else:
+             #   D7_004.append(
+                  #  labeled_results[i]['results']['D7_004']['answer_label'])
 
             D7_005.append(labeled_results[i]
                           ['results']['D7_005']['answer_label'])
-            if(labeled_results[i]['results']['D7_005']['answer_label'] == "Non"):
-                D7_006.append("NA")
-            else:
-                D7_006.append(
-                    labeled_results[i]['results']['D7_006']['answer_label'])
+           # if(labeled_results[i]['results']['D7_005']['answer_label'] == "Non"):
+             #   D7_006.append("NA")
+           # else:
+             #   D7_006.append(
+                  #  labeled_results[i]['results']['D7_006']['answer_label'])
 
             D8.append(labeled_results[i]['results']['D8']['answer_label'])
             D9.append(labeled_results[i]['results']['D9']['answer_label'])
@@ -262,9 +262,9 @@ class GetKoboData:
             labeled_results[0]['results']['D6_001']['label'][0:-2]: D6_001,
             labeled_results[0]['results']['D6_002']['label']: D6_002,
             labeled_results[0]['results']['D7_003']['label']: D7_003,
-            labeled_results[0]['results']['D7_004']['label'][0:-2]: D7_004,
+            #labeled_results[0]['results']['D7_004']['label'][0:-2]: D7_004,
             labeled_results[0]['results']['D7_005']['label'][0:-1]: D7_005,
-            labeled_results[0]['results']['D7_006']['label'][0:-2]: D7_006,
+           # labeled_results[0]['results']['D7_006']['label'][0:-2]: D7_006,
             labeled_results[0]['results']['D8']['label'][0:-1]: D8,
             labeled_results[0]['results']['D9']['label'][0:-2].strip(): D9,
             labeled_results[0]['results']['D10']['label'][0:-2]: D10,
