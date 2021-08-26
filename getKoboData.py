@@ -49,23 +49,37 @@ class GetKoboData:
         ], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []
 
         for i in range(0, len(labeled_results)):
-            N0.append(labeled_results[i]['results']['No']['answer_label'])
-            A1.append(labeled_results[i]['results']['A1']['answer_label'])
-            A2.append(labeled_results[i]['results']['A2']['answer_label'])
+            if "No" in labeled_results[i]['results'].keys():
+                N0.append(labeled_results[i]['results']['No']['answer_label'])
+            if "A1" in labeled_results[i]['results'].keys():
+                A1.append(labeled_results[i]['results']['A1']['answer_label'])
+            if "A2" in labeled_results[i]['results'].keys():
+                A2.append(labeled_results[i]['results']['A2']['answer_label'])
             A3.append(labeled_results[i]['results']['A3']['answer_label'])
             A4.append(labeled_results[i]['results']['A4']['answer_label'])
             A5.append(labeled_results[i]['results']['A5']['answer_label'])
             A6.append(labeled_results[i]['results']['A6']['answer_label'])
             #############section 2########################################
             Bo.append(labeled_results[i]['results']['Bo']['answer_label'])
-            Bo1.append(labeled_results[i]['results']['Bo1']['answer_label'])
+            if "Bo1" in labeled_results[i]['results'].keys():
+                Bo1.append(labeled_results[i]['results']['Bo1']['answer_label'])
+            else:
+                Bo1.append("no value")            
             B1.append(labeled_results[i]['results']['B1']['answer_label'])
             B2.append(labeled_results[i]['results']['B2']['answer_label'])
-            B3.append(labeled_results[i]['results']['B3']['answer_label'])
+            if "B3" in labeled_results[i]['results'].keys():
+                B3.append(labeled_results[i]['results']['B3']['answer_label'])
+            else:
+                B3.append("no value")            
             B4.append(labeled_results[i]['results']['B4']['answer_label'])
-            B4_001.append(labeled_results[i]
-                          ['results']['B4_001']['answer_label'])
-            B5.append(labeled_results[i]['results']['B5']['answer_label'])
+            if "B4_001" in labeled_results[i]['results'].keys():
+                B4_001.append(labeled_results[i]['results']['B4_001']['answer_label'])
+            else:
+                B4_001.append("no value")
+            if "B5" in labeled_results[i]['results'].keys():
+                B5.append(labeled_results[i]['results']['B5']['answer_label'])
+            else:
+                B5.append("no value")            
             B6.append(labeled_results[i]['results']['B6']['answer_label'])
             B8.append(labeled_results[i]['results']['B8']['answer_label'])
             if(labeled_results[i]['results']['B8']['answer_label'] == "NON"):
@@ -79,28 +93,34 @@ class GetKoboData:
             C3.append(labeled_results[i]['results']['C3']['answer_label'])
             C5.append(labeled_results[i]['results']['C5']['answer_label'])
             C6.append(labeled_results[i]['results']
-                      ['C6']['answer_label'].strip())
-            C7.append(labeled_results[i]['results']['C7']['answer_label'])
-            C8.append(labeled_results[i]['results']
-                      ['C8']['answer_label'].strip())
+['C6']['answer_label'].strip())
+            if "C7" in labeled_results[i]['results'].keys():
+                C7.append(labeled_results[i]['results']['C7']['answer_label'])
+            else:
+                C7.append("no value")            
+            C8.append(labeled_results[i]['results']['C8']['answer_label'].strip())
             C9.append(labeled_results[i]['results']['C9']['answer_label'])
             C10.append(labeled_results[i]['results']['C10']['answer_label'])
         # SECTION 4 : COMPOSITION ET SITUATION DES FEDERATIONS ET REGROUPEMENTS SPORTIFS
             D1.append(labeled_results[i]['results']['D1']['answer_label'])
             D2.append(labeled_results[i]['results']['D2']['answer_label'])
             D3.append(labeled_results[i]['results']['D3']['answer_label'])
-            if(labeled_results[i]['results']['D3']['answer_label'] == "Non"):
-                D4.append("NA")
+            if "D4" in labeled_results[i]['results'].keys():
+                if(labeled_results[i]['results']['D3']['answer_label']=="Non"):
+                    D4.append(" ")
+                else:
+                    D4.append(labeled_results[i]['results']['D4']['answer_label'])
             else:
-                D4.append(labeled_results[i]['results']['D4']['answer_label'])
+                D4.append("no value")
             D5.append(labeled_results[i]['results']['D5']['answer_label'])
-            if(labeled_results[i]['results']['D5']['answer_label'] == "Non"):
-                D5_001.append("NA")
+            if "D5_001" in labeled_results[i]['results'].keys():
+                if(labeled_results[i]['results']['D5']['answer_label']=="Non"):
+                    D5_001.append("NaN")
+                else:
+                    D5_001.append(labeled_results[i]['results']['D5_001']['answer_label'])
             else:
-                D5_001.append(
-                    labeled_results[i]['results']['D5_001']['answer_label'])
-            D5_002.append(labeled_results[i]
-                          ['results']['D5_002']['answer_label'])
+                D5_001.append("no value")
+            D5_002.append(labeled_results[i]['results']['D5_002']['answer_label'])
             D6.append(labeled_results[i]['results']['D6']['answer_label'])
             if(labeled_results[i]['results']['D6']['answer_label'] == "Non"):
                 D6_001.append("NA")
@@ -137,8 +157,7 @@ class GetKoboData:
             D16.append(labeled_results[i]['results']['D16']['answer_label'])
             D17.append(labeled_results[i]['results']['D17']['answer_label'])
             D18.append(labeled_results[i]['results']['D18']['answer_label'])
-            D18_001.append(
-                labeled_results[i]['results']['D18_001']['answer_label'])
+            D18_001.append(labeled_results[i]['results']['D18_001']['answer_label'])
             D19.append(labeled_results[i]['results']['D19']['answer_label'])
             D20.append(labeled_results[i]['results']['D20']['answer_label'])
             # D10.append(labeled_results[i]['results']['D3']['answer_label'])
