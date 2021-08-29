@@ -589,25 +589,47 @@ def render_page_content(pathname):
 #     return {'data':[  
 #            px.area(temp,x='statut',y='Count',color=xaxis_valus,height=400,title ='medailles par structure',color_discrete_sequence=[rec,dth,act])
 #             ]}
-def getComponent(columns,df11 ) :
-    return   dbc.Card([
-           
-            html.H6(columns,
-                    style={
-                        'textAlign': 'center',
-                        'color': 'orange',
-                        }
-                    ),
-            
-            dbc.CardBody(f"{df11[columns].values[0]:}",
-                   style={
-                       'textAlign': 'center',
-                       'color': 'orange',
-                       'fontSize': 20}
-                   ),
- 
-          ], className="card_container",
-        )
+def getComponent(columns,df11,value ):
+    card_content = [
+        dbc.CardHeader(value),
+        dbc.CardBody(
+            [
+                html.H5(columns, className="card-title"),
+                html.P(
+                    df11[columns].values[0],
+                    className="card-text",
+                ),
+            ]
+        ),
+    ]
+
+
+    return dbc.Row(
+               [
+                   dbc.Col(dbc.Card(card_content, color="primary", outline=True)),
+                   #dbc.Col(dbc.Card(card_content, color="secondary", outline=True)),
+                   #dbc.Col(dbc.Card(card_content, color="info", outline=True)),
+               ],
+               className="mb-4",
+           )
+#     return   dbc.Card([
+#
+#             html.H6(columns,
+#                     style={
+#                         'textAlign': 'center',
+#                         'color': 'orange',
+#                         }
+#                     ),
+#
+#             dbc.CardBody(f"{df11[columns].values[0]:}",
+#                    style={
+#                        'textAlign': 'center',
+#                        'color': 'orange',
+#                        'fontSize': 20}
+#                    ),
+#
+#           ], className="card_container",
+#         )
 
 @app.callback(
       dash.dependencies.Output('dd-output-container', 'options'),
@@ -647,17 +669,24 @@ def update_output_1(value):
      nbre_comitte=df11["Quel est le nombre de membres dans le comité directeur ?"].values[0]
      print(nbre_comitte)
      print(df11.columns)
+     return html.Div(
+      children=[getComponent(column,df11,value) for column in df11.columns[5:]]
 
-     return  dbc.Col(
-             children=[getComponent(column,df11) for column in df11.columns[5:]
-             
-             ],
-             
-             
-      
-   
-        md=12
-         )
+     )
+#      return  dbc.Row(
+#      [
+#      dbc.Col(
+#              html.Div( children=[getComponent(column,df11) for column in df11.columns[5:]
+#
+#              ]),   width={"size": 6, "offset": 3},
+#
+#
+#
+#
+#
+#          )
+#          ]
+#          )
 
     #  return    html.Div([
     #         html.H6(children='Quel est le nombre de membres dans le comité directeur ? :',
