@@ -1,6 +1,7 @@
 import dash
 import dash_auth
 import dash_bootstrap_components as dbc
+from dash_bootstrap_components._components.CardBody import CardBody
 import dash_core_components as dcc
 import dash_html_components as html
 #from dash_html_components.Hr import Hr
@@ -52,7 +53,7 @@ df1=kobdata.getDapsDataFrame(labeld_results)
 df1.rename(columns={'Quel est le statut de votre structure  ?':'statut'}, inplace=True)
 
 df_medaille=df1.groupby(['Quel est le nom de votre structure','statut'])[["Combien de médailles d'or avez-vous gagné niveau international","Combien de médailles d'or avez-vous gagné par les femmes niveau international","Combien de médailles d'or avez-vous gagné par les hommes niveau international"]].sum().reset_index()
-
+df_org=""
 count_statut=df1['statut'].value_counts(sort=True, ascending=True)
 test1=df1['Le nombre de femmes actives élèves arbitres'].sum()
 nbre=int(test1[-1])
@@ -550,15 +551,21 @@ def render_page_content(pathname):
                         id='dd-output-container',
                      
                         ),
-                        #dash_table.DataTable(
-   # id='data',columns=[{"name": i, "id": i} for i in df1.columns],
+                       # dash_table.DataTable(
+   # id='data',columns=[{"name": i, "id": i} for i in df1.columns]),
    
-
-  html.Div(id="page-content1",style=CONTENT_STYLE)  
+   
+  html.Div(id="page-content1",style=CONTENT_STYLE,
+  
+  )  ,
+  dbc.Row(id="col1",
+   
+    
+)
       
 ]
        
-),
+)
     
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
@@ -582,6 +589,26 @@ def render_page_content(pathname):
 #     return {'data':[  
 #            px.area(temp,x='statut',y='Count',color=xaxis_valus,height=400,title ='medailles par structure',color_discrete_sequence=[rec,dth,act])
 #             ]}
+def getComponent(columns,df11 ) :
+    return   dbc.Card([
+           
+            html.H6(columns,
+                    style={
+                        'textAlign': 'center',
+                        'color': 'orange',
+                        }
+                    ),
+            
+            dbc.CardBody(f"{df11[columns].values[0]:}",
+                   style={
+                       'textAlign': 'center',
+                       'color': 'orange',
+                       'fontSize': 20}
+                   ),
+ 
+          ], className="card_container",
+        )
+
 @app.callback(
       dash.dependencies.Output('dd-output-container', 'options'),
                                     [dash.dependencies.Input('demo-dropdown', 'value')])
@@ -594,11 +621,16 @@ def update_output(value):
      df00=df1[['statut','Quel est le nom de votre structure']]
      df0=df00[df00['statut'] == value]
      df11=df0['Quel est le nom de votre structure']
+     df_org=df11
      return  [{"label":i,"value":i} for i in df11]
+     #return df_org
+     
 
 
 @app.callback(
-      dash.dependencies.Output('page-content1', 'children'),
+     # dash.dependencies.Output('page-content1', 'children'),
+      dash.dependencies.Output('col1', 'children'),
+
                                     [dash.dependencies.Input('dd-output-container', 'value')])
 def update_output_1(value):
 
@@ -609,8 +641,144 @@ def update_output_1(value):
     # df00=df1[['statut','Quel est le nom de votre structure']]
      #df0=df00[df00['statut'] == value]
      df11=df1[df1['Quel est le nom de votre structure']==value]
+     #Sprint(df11)
      #return  df11.to_dict('records')
-     
+     print(df11['Quel est le nombre de membres dans le comité directeur ?'])
+     nbre_comitte=df11["Quel est le nombre de membres dans le comité directeur ?"].values[0]
+     print(nbre_comitte)
+     print(df11.columns)
+
+     return  dbc.Col(
+             children=[getComponent(column,df11) for column in df11.columns[5:]
+             
+             ],
+             
+             
+      
+   
+        md=12
+         )
+
+    #  return    html.Div([
+    #         html.H6(children='Quel est le nombre de membres dans le comité directeur ? :',
+
+    #                 style={
+    #                     'textAlign': 'center',
+    #                     'color': 'white'}
+    #                 ),
+ 
+    #         html.P(f"{df11['Quel est le nombre de membres dans le comité directeur ?'].values[0]}",
+    #                style={
+    #                    'textAlign': 'center',
+    #                    'color': 'orange',
+    #                    'fontSize': 40}
+    #                ),
+    #  ], className="card_container",
+    #     )
+     return dbc.Col([
+           html.H1("Identification de l organisation",
+           style={
+                        'textAlign': 'center',
+                        'color': 'white'}),
+           html.Br(),
+    dbc.Col(
+      
+       html.Div([
+           
+            html.H6(children='Disciplines pratiquees',
+                    style={
+                        'textAlign': 'center',
+                        'color': 'white',
+                        }
+                    ),
+ 
+            html.P(f"{df11['Quelles disciplines pratiquez-vous '].values[0]:}",
+                   style={
+                       'textAlign': 'center',
+                       'color': 'orange',
+                       'fontSize': 20}
+                   ),
+ 
+          ], className="card_container",
+        ),
+        md=3 
+    ),
+     dbc.Col(
+       html.Div([
+            html.H6(children='Outils de travail:',
+                    style={
+                        'textAlign': 'center',
+                        'color': 'white'}
+                    ),
+ 
+            html.P(f"{df11['Quel sont les outils de travail que vous utilisez  ?'].values[0]:}",
+                   style={
+                       'textAlign': 'center',
+                       'color': 'orange',
+                       'fontSize': 20}
+                   ),
+ 
+            # html.P(':  ' + f"{:,.0f} "
+            #        + ' (' + str(round(56,344)) + '%)',
+            #        style={
+            #            'textAlign': 'center',
+            #            'color': 'orange',
+            #            'fontSize': 15,
+            #            'margin-top': '-18px'}
+            #        )
+                   ], className="card_container",
+        ),
+        md=3 
+    ),
+     dbc.Col(
+      html.Div([
+            html.H6(children='Membres dans le comite directeur',
+                    style={
+                        'textAlign': 'center',
+                        'color': 'white'}
+                    ),
+ 
+                html.P(' ' + f"{df11['Quel est le nombre de membres dans le comité directeur ?'].values[0]:} "
+                   ,
+                   style={
+                       'textAlign': 'center',
+                       'color': 'orange',
+                       'fontSize': 20,
+                       }
+                   ),
+ 
+            ], className="card_container",
+        ),
+        md=3 
+    ),
+     dbc.Col(
+       html.Div([
+            html.H6(children='Nombre de CNG',
+                    style={
+                        'textAlign': 'center',
+                        'color': 'white'}
+                    ),
+ 
+            html.P(f"{NOMBRE_CNG:,.0f}",
+                   style={
+                       'textAlign': 'center',
+                       'color': 'orange',
+                       'fontSize': 40}
+                   ),
+ 
+            html.P(' ' + f"{(NOMBRE_CNG/len(df1.index)*100):,.0f} "
+                   + '%',
+                   style={
+                       'textAlign': 'center',
+                       'color': 'orange',
+                       'fontSize': 15,
+                       'margin-top': '-18px'}
+                   )], className="card_container",
+        ),
+        md=3 
+    ),
+    
+])
 
      
 #####second row
