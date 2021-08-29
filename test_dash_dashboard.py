@@ -606,7 +606,7 @@ def getComponent(columns,df11,value ):
 
     return dbc.Row(
                [
-                   dbc.Col(dbc.Card(card_content, color="primary", outline=True)),
+                   dbc.Col(dbc.Card(card_content, color="info", outline=True)),
                    #dbc.Col(dbc.Card(card_content, color="secondary", outline=True)),
                    #dbc.Col(dbc.Card(card_content, color="info", outline=True)),
                ],
