@@ -670,7 +670,7 @@ def update_output_1(value):
      print(nbre_comitte)
      print(df11.columns)
      return html.Div(
-      children=[getComponent(column,df11,value) for column in df11.columns[5:]]
+      children=[getComponent(column,df11,value) for column in df11.columns[7:]]
 
      )
 #      return  dbc.Row(
