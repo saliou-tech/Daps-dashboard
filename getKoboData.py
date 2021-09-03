@@ -66,7 +66,10 @@ class GetKoboData:
             else:
                 Bo1.append("no value")            
             B1.append(labeled_results[i]['results']['B1']['answer_label'])
-            B2.append(labeled_results[i]['results']['B2']['answer_label'])
+            if "B2" in labeled_results[i]['results'].keys():
+                B2.append(labeled_results[i]['results']['B2']['answer_label'])
+            else:
+                B2.append("no value")
             if "B3" in labeled_results[i]['results'].keys():
                 B3.append(labeled_results[i]['results']['B3']['answer_label'])
             else:
@@ -90,14 +93,17 @@ class GetKoboData:
         # SECTION3 : IDENTIFICATION DES MEMBRES DU BUREAU DE LA FEDERATION OU DU GROUPEMENT SPORTIF####""
             C1.append(labeled_results[i]['results']['C1']['answer_label'])
             C2.append(labeled_results[i]['results']['C2']['answer_label'])
-            C3.append(labeled_results[i]['results']['C3']['answer_label'])
+            if "C3" in labeled_results[i]['results'].keys():
+                C3.append(labeled_results[i]['results']['C3']['answer_label'])
+            else:
+                C3.append("no value")
             C5.append(labeled_results[i]['results']['C5']['answer_label'])
-            C6.append(labeled_results[i]['results']
-['C6']['answer_label'].strip())
+
+            C6.append(labeled_results[i]['results']['C6']['answer_label'].strip())
             if "C7" in labeled_results[i]['results'].keys():
                 C7.append(labeled_results[i]['results']['C7']['answer_label'])
             else:
-                C7.append("no value")            
+                C7.append("no value")
             C8.append(labeled_results[i]['results']['C8']['answer_label'].strip())
             C9.append(labeled_results[i]['results']['C9']['answer_label'])
             C10.append(labeled_results[i]['results']['C10']['answer_label'])
@@ -155,7 +161,10 @@ class GetKoboData:
             D12.append(labeled_results[i]['results']['D12']['answer_label'])
             D15.append(labeled_results[i]['results']['D15']['answer_label'])
             D16.append(labeled_results[i]['results']['D16']['answer_label'])
-            D17.append(labeled_results[i]['results']['D17']['answer_label'])
+            if "D17" in labeled_results[i]['results'].keys():
+                D17.append(labeled_results[i]['results']['D17']['answer_label'])
+            else:
+                D17.append("no value")
             D18.append(labeled_results[i]['results']['D18']['answer_label'])
             D18_001.append(labeled_results[i]['results']['D18_001']['answer_label'])
             D19.append(labeled_results[i]['results']['D19']['answer_label'])
@@ -339,6 +348,9 @@ class GetKoboData:
             labeled_results[0]['results']['E16']['label'][0:-2].strip(): E16,
             labeled_results[0]['results']['E18']['label'][0:-2].strip(): E18,
             labeled_results[0]['results']['HF']['label'][0:-2].strip(): HF, }
+        #print(data)
+        #for tab in data.values():
+           # print(len(tab))
         return pd.DataFrame(data)
 
 # kobdata = GetKoboData()

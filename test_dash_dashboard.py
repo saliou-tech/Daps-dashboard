@@ -610,7 +610,7 @@ def getComponent(columns,df11,value ):
                    #dbc.Col(dbc.Card(card_content, color="secondary", outline=True)),
                    #dbc.Col(dbc.Card(card_content, color="info", outline=True)),
                ],
-               className="mb-4",
+               className="mb-12",
            )
 #     return   dbc.Card([
 #
