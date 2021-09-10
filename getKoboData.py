@@ -7,7 +7,7 @@ class GetKoboData:
 
     def __init__(self):
         self.KOBO_TOKEN = "195930fa6955af494ccd95acc9d8e5e8e51e2796"
-        self.kobo = KoboExtractor( 
+        self.kobo = KoboExtractor(
             self.KOBO_TOKEN, 'https://kobo.humanitarianresponse.info/api/v2', debug=True)
 
     def getAllData(self):
@@ -59,12 +59,16 @@ class GetKoboData:
             A4.append(labeled_results[i]['results']['A4']['answer_label'])
             A5.append(labeled_results[i]['results']['A5']['answer_label'])
             A6.append(labeled_results[i]['results']['A6']['answer_label'])
-            #############section 2########################################
-            Bo.append(labeled_results[i]['results']['Bo']['answer_label'])
+                    #############section 2########################################
+            if "Bo" in labeled_results[i]['results'].keys():
+                Bo.append(labeled_results[i]['results']['Bo']['answer_label'])
+            else:
+                Bo.append("no value")
+
             if "Bo1" in labeled_results[i]['results'].keys():
                 Bo1.append(labeled_results[i]['results']['Bo1']['answer_label'])
             else:
-                Bo1.append("no value")            
+                Bo1.append("no value")
             B1.append(labeled_results[i]['results']['B1']['answer_label'])
             if "B2" in labeled_results[i]['results'].keys():
                 B2.append(labeled_results[i]['results']['B2']['answer_label'])
@@ -73,7 +77,7 @@ class GetKoboData:
             if "B3" in labeled_results[i]['results'].keys():
                 B3.append(labeled_results[i]['results']['B3']['answer_label'])
             else:
-                B3.append("no value")            
+                B3.append("no value")
             B4.append(labeled_results[i]['results']['B4']['answer_label'])
             if "B4_001" in labeled_results[i]['results'].keys():
                 B4_001.append(labeled_results[i]['results']['B4_001']['answer_label'])
@@ -82,7 +86,7 @@ class GetKoboData:
             if "B5" in labeled_results[i]['results'].keys():
                 B5.append(labeled_results[i]['results']['B5']['answer_label'])
             else:
-                B5.append("no value")            
+                B5.append("no value")
             B6.append(labeled_results[i]['results']['B6']['answer_label'])
             B8.append(labeled_results[i]['results']['B8']['answer_label'])
             if(labeled_results[i]['results']['B8']['answer_label'] == "NON"):
@@ -90,24 +94,33 @@ class GetKoboData:
             else:
                 B10.append(labeled_results[i]
                            ['results']['B10']['answer_label'])
-        # SECTION3 : IDENTIFICATION DES MEMBRES DU BUREAU DE LA FEDERATION OU DU GROUPEMENT SPORTIF####""
+            # SECTION3 : IDENTIFICATION DES MEMBRES DU BUREAU DE LA FEDERATION OU DU GROUPEMENT SPORTIF####""
             C1.append(labeled_results[i]['results']['C1']['answer_label'])
-            C2.append(labeled_results[i]['results']['C2']['answer_label'])
+            if "C2" in labeled_results[i]['results'].keys():
+                C2.append(labeled_results[i]['results']['C2']['answer_label'])
+            else:
+                C2.append("no value")
             if "C3" in labeled_results[i]['results'].keys():
                 C3.append(labeled_results[i]['results']['C3']['answer_label'])
             else:
                 C3.append("no value")
             C5.append(labeled_results[i]['results']['C5']['answer_label'])
 
-            C6.append(labeled_results[i]['results']['C6']['answer_label'].strip())
+            if "C6" in labeled_results[i]['results'].keys():
+                C6.append(labeled_results[i]['results']['C6']['answer_label'].strip())
+            else:
+                C6.append("no value")
             if "C7" in labeled_results[i]['results'].keys():
                 C7.append(labeled_results[i]['results']['C7']['answer_label'])
             else:
                 C7.append("no value")
             C8.append(labeled_results[i]['results']['C8']['answer_label'].strip())
             C9.append(labeled_results[i]['results']['C9']['answer_label'])
-            C10.append(labeled_results[i]['results']['C10']['answer_label'])
-        # SECTION 4 : COMPOSITION ET SITUATION DES FEDERATIONS ET REGROUPEMENTS SPORTIFS
+            if "C10" in labeled_results[i]['results'].keys():
+                C10.append(labeled_results[i]['results']['C10']['answer_label'])
+            else:
+                C10.append("No value")
+            # SECTION 4 : COMPOSITION ET SITUATION DES FEDERATIONS ET REGROUPEMENTS SPORTIFS
             D1.append(labeled_results[i]['results']['D1']['answer_label'])
             D2.append(labeled_results[i]['results']['D2']['answer_label'])
             D3.append(labeled_results[i]['results']['D3']['answer_label'])
@@ -126,17 +139,24 @@ class GetKoboData:
                     D5_001.append(labeled_results[i]['results']['D5_001']['answer_label'])
             else:
                 D5_001.append("no value")
-            D5_002.append(labeled_results[i]['results']['D5_002']['answer_label'])
-            D6.append(labeled_results[i]['results']['D6']['answer_label'])
-            if(labeled_results[i]['results']['D6']['answer_label'] == "Non"):
-                D6_001.append("NA")
-                D6_002.append("NA")
-
+            if "D5_002" in labeled_results[i]['results'].keys():
+                D5_002.append(labeled_results[i]['results']['D5_002']['answer_label'])
             else:
-                D6_001.append(
-                    labeled_results[i]['results']['D6_001']['answer_label'])
-                D6_002.append(
-                    labeled_results[i]['results']['D6_002']['answer_label'])
+                D5_002.append("no value")
+
+            D6.append(labeled_results[i]['results']['D6']['answer_label'])
+            try:
+                if(labeled_results[i]['results']['D6']['answer_label'] == "Non"):
+                    D6_001.append("NA")
+                    D6_002.append("NA")
+
+                else:
+                    D6_001.append(labeled_results[i]['results']['D6_001']['answer_label'])
+                    D6_002.append(labeled_results[i]['results']['D6_002']['answer_label'])
+            except:
+                D6_001.append("no value")
+                D6_002.append("No value")
+
             D7_003.append(labeled_results[i]
                           ['results']['D7_003']['answer_label'])
            # if(labeled_results[i]['results']['D7_003']['answer_label'] == "Non"):
@@ -157,7 +177,10 @@ class GetKoboData:
             D8.append(labeled_results[i]['results']['D8']['answer_label'])
             D9.append(labeled_results[i]['results']['D9']['answer_label'])
             D10.append(labeled_results[i]['results']['D10']['answer_label'])
-            D11.append(labeled_results[i]['results']['D11']['answer_label'])
+            if "D11" in labeled_results[i]['results'].keys():
+                D11.append(labeled_results[i]['results']['D11']['answer_label'])
+            else:
+                D11.append("no value")
             D12.append(labeled_results[i]['results']['D12']['answer_label'])
             D15.append(labeled_results[i]['results']['D15']['answer_label'])
             D16.append(labeled_results[i]['results']['D16']['answer_label'])
@@ -165,40 +188,157 @@ class GetKoboData:
                 D17.append(labeled_results[i]['results']['D17']['answer_label'])
             else:
                 D17.append("no value")
-            D18.append(labeled_results[i]['results']['D18']['answer_label'])
-            D18_001.append(labeled_results[i]['results']['D18_001']['answer_label'])
-            D19.append(labeled_results[i]['results']['D19']['answer_label'])
-            D20.append(labeled_results[i]['results']['D20']['answer_label'])
+            if "D18" in labeled_results[i]['results'].keys():
+                D18.append(labeled_results[i]['results']['D18']['answer_label'])
+            else:
+                D18.append("no value")
+            if "D18_001" in labeled_results[i]['results'].keys():
+                D18_001.append(labeled_results[i]['results']['D18_001']['answer_label'])
+            else:
+                D18_001.append("no value")
+            if "D19" in labeled_results[i]['results'].keys():
+                D19.append(labeled_results[i]['results']['D19']['answer_label'])
+            else:
+                D19.append("no value")
+            if "D20" in labeled_results[i]['results'].keys():
+                D20.append(labeled_results[i]['results']['D20']['answer_label'])
+            else:
+                D20.append("no value")
             # D10.append(labeled_results[i]['results']['D3']['answer_label'])
-            D21.append(labeled_results[i]['results']['D21']['answer_label'])
-            D22.append(labeled_results[i]['results']['D22']['answer_label'])
-            D23.append(labeled_results[i]['results']['D23']['answer_label'])
-            D24.append(labeled_results[i]['results']['D24']['answer_label'])
-            D25.append(labeled_results[i]['results']['D25']['answer_label'])
-            D26.append(labeled_results[i]['results']['D26']['answer_label'])
-            D27.append(labeled_results[i]['results']['D27']['answer_label'])
-            D28.append(labeled_results[i]['results']['D28']['answer_label'])
-            D29.append(labeled_results[i]['results']['D29']['answer_label'])
-            D30.append(labeled_results[i]['results']['D30']['answer_label'])
-            D31.append(labeled_results[i]['results']['D31']['answer_label'])
-            D32.append(labeled_results[i]['results']['D32']['answer_label'])
-            D33.append(labeled_results[i]['results']['D33']['answer_label'])
-            D34.append(labeled_results[i]['results']['D34']['answer_label'])
-            D35.append(labeled_results[i]['results']['D35']['answer_label'])
-            D36.append(labeled_results[i]['results']['D36']['answer_label'])
-            D37.append(labeled_results[i]['results']['D37']['answer_label'])
-            D38.append(labeled_results[i]['results']['D38']['answer_label'])
-            D39.append(labeled_results[i]['results']['D39']['answer_label'])
-            D40.append(labeled_results[i]['results']['D40']['answer_label'])
-            D41.append(labeled_results[i]['results']['D41']['answer_label'])
-            D42.append(labeled_results[i]['results']['D42']['answer_label'])
-            D43.append(labeled_results[i]['results']['D43']['answer_label'])
-            E1.append(labeled_results[i]['results']['E1']['answer_label'])
-            E2.append(labeled_results[i]['results']['E2']['answer_label'])
-            E3.append(labeled_results[i]['results']['E3']['answer_label'])
-            E4.append(labeled_results[i]['results']['E4']['answer_label'])
-            if(labeled_results[i]['results']['E4']['answer_label'] == "Non"):
-                E5.append(0)
+            if "D21" in labeled_results[i]['results'].keys():
+                D21.append(labeled_results[i]['results']['D21']['answer_label'])
+            else:
+                D21.append("no value")
+            if "D22" in labeled_results[i]['results'].keys():
+                D22.append(labeled_results[i]['results']['D22']['answer_label'])
+            else:
+                D22.append("no value")
+            if "D23" in labeled_results[i]['results'].keys():
+                D23.append(labeled_results[i]['results']['D23']['answer_label'])
+            else:
+                D23.append("no value")
+            if "D24" in labeled_results[i]['results'].keys():
+                D24.append(labeled_results[i]['results']['D24']['answer_label'])
+            else:
+                D24.append("no value")
+            if "D25" in labeled_results[i]['results'].keys():
+                D25.append(labeled_results[i]['results']['D25']['answer_label'])
+            else:
+                D25.append("no value")
+            if "D26" in labeled_results[i]['results'].keys():
+                D26.append(labeled_results[i]['results']['D26']['answer_label'])
+            else:
+                D26.append("no value")
+            if "D27" in labeled_results[i]['results'].keys():
+                D27.append(labeled_results[i]['results']['D27']['answer_label'])
+            else:
+                D27.append("no value")
+            if "D28" in labeled_results[i]['results'].keys():
+                D28.append(labeled_results[i]['results']['D28']['answer_label'])
+            else:
+                D28.append("no value")
+
+            if "D29" in labeled_results[i]['results'].keys():
+                D29.append(labeled_results[i]['results']['D29']['answer_label'])
+            else:
+                D29.append("no value")
+            if "D30" in labeled_results[i]['results'].keys():
+                D30.append(labeled_results[i]['results']['D30']['answer_label'])
+            else:
+                D30.append("o value")
+            if "D31" in labeled_results[i]['results'].keys():
+                D31.append(labeled_results[i]['results']['D31']['answer_label'])
+            else:
+                D31.append("o value")
+            if "D32" in labeled_results[i]['results'].keys():
+                D32.append(labeled_results[i]['results']['D32']['answer_label'])
+            else:
+                D32.append("no value")
+            if "D33" in labeled_results[i]['results'].keys():
+                D33.append(labeled_results[i]['results']['D33']['answer_label'])
+            else:
+                D33.append("no value")
+            if "D34" in labeled_results[i]['results'].keys():
+                D34.append(labeled_results[i]['results']['D34']['answer_label'])
+            else:
+                D34.append("no value")
+            if "D35" in labeled_results[i]['results'].keys():
+                D35.append(labeled_results[i]['results']['D35']['answer_label'])
+            else:
+                D35.append("no value")
+            if "D36" in labeled_results[i]['results'].keys():
+                D36.append(labeled_results[i]['results']['D36']['answer_label'])
+            else:
+                D36.append("no value")
+            if "D37" in labeled_results[i]['results'].keys():
+                D37.append(labeled_results[i]['results']['D37']['answer_label'])
+            else:
+                D37.append("non value")
+            if "D38" in labeled_results[i]['results'].keys():
+                D38.append(labeled_results[i]['results']['D38']['answer_label'])
+            else:
+                D38.append("no value")
+            if "D39" in labeled_results[i]['results'].keys():
+                D39.append(labeled_results[i]['results']['D39']['answer_label'])
+            else:
+                D39.append("no value")
+            if "D40" in labeled_results[i]['results'].keys():
+                D40.append(labeled_results[i]['results']['D40']['answer_label'])
+            else:
+                D40.append("no value")
+            if "D41" in labeled_results[i]['results'].keys():
+                D41.append(labeled_results[i]['results']['D41']['answer_label'])
+            else:
+                D41.append("no value")
+            if "D42" in labeled_results[i]['results'].keys():
+                D42.append(labeled_results[i]['results']['D42']['answer_label'])
+            else:
+                D42.append("no value")
+            if "D43" in labeled_results[i]['results'].keys():
+                D43.append(labeled_results[i]['results']['D43']['answer_label'])
+            else:
+                D43.append("no value")
+            if "E1" in labeled_results[i]['results'].keys():
+                E1.append(labeled_results[i]['results']['E1']['answer_label'])
+            else:
+                E1.append("no value")
+            if "E2" in labeled_results[i]['results'].keys():
+                E2.append(labeled_results[i]['results']['E2']['answer_label'])
+            else:
+                E2.append("no value")
+            if "E3" in labeled_results[i]['results'].keys():
+                E3.append(labeled_results[i]['results']['E3']['answer_label'])
+            else:
+                E3.append("no value")
+            if "E4" in labeled_results[i]['results'].keys():
+                E4.append(labeled_results[i]['results']['E4']['answer_label'])
+            else:
+                E4.append("no value")
+            #if "E5" in labeled_results[i]['results'].keys():
+            try:
+                if(labeled_results[i]['results']['E4']['answer_label'] == "Non"):
+                    E5.append(0)
+                    E6.append(0)
+                    E7.append(0)
+                    E8.append(0)
+                    E9.append(0)
+                    E10.append(0)
+                    E11.append(0)
+                    E12.append(0)
+                    E13.append(0)
+                else:
+                    E5.append(labeled_results[i]['results']['E5']['answer_label'])
+                    E6.append(labeled_results[i]['results']['E6']['answer_label'])
+                    E7.append(labeled_results[i]['results']['E7']['answer_label'])
+                    E8.append(labeled_results[i]['results']['E8']['answer_label'])
+                    E9.append(labeled_results[i]['results']['E9']['answer_label'])
+                    E10.append(labeled_results[i]['results']['E10']['answer_label'])
+                    E11.append(labeled_results[i]['results']['E11']['answer_label'])
+                    E12.append(labeled_results[i]['results']['E12']['answer_label'])
+                    E13.append(labeled_results[i]['results']['E13']['answer_label'])
+
+            except:
+                E5.append("no value")
                 E6.append(0)
                 E7.append(0)
                 E8.append(0)
@@ -207,33 +347,30 @@ class GetKoboData:
                 E11.append(0)
                 E12.append(0)
                 E13.append(0)
+            if "E13_001" in labeled_results[i]['results'].keys():
+                E13_001.append(labeled_results[i]['results']['E13_001']['answer_label'])
+            else:
+                E13_001.append("no value")
+            if "E13_002" in labeled_results[i]['results'].keys():
+                E13_002.append(labeled_results[i]['results']['E13_002']['answer_label'])
+            else:
+                E13_002.append("no value")
+            if "E14" in labeled_results[i]['results'].keys():
+                E14.append(labeled_results[i]['results']['E14']['answer_label'].strip())
+            else:
+                E14.append("no value")
+            if "E15" in labeled_results[i]['results'].keys():
+                E15.append(labeled_results[i]['results']['E15']['answer_label'])
+            else:
+                E15.append("no value")
+            if "E16" in labeled_results[i]['results'].keys():
+                if(labeled_results[i]['results']['E15']['answer_label'] == "Non"):
+                    E16.append("NA")
+                else:
+                    E16.append(labeled_results[i]['results']['E16']['answer_label'].strip())
+            else:
+                E16.append("no value")
 
-            else:
-                E5.append(labeled_results[i]['results']['E5']['answer_label'])
-                E6.append(labeled_results[i]['results']['E6']['answer_label'])
-                E7.append(labeled_results[i]['results']['E7']['answer_label'])
-                E8.append(labeled_results[i]['results']['E8']['answer_label'])
-                E9.append(labeled_results[i]['results']['E9']['answer_label'])
-                E10.append(labeled_results[i]
-                           ['results']['E10']['answer_label'])
-                E11.append(labeled_results[i]
-                           ['results']['E11']['answer_label'])
-                E12.append(labeled_results[i]
-                           ['results']['E12']['answer_label'])
-                E13.append(labeled_results[i]
-                           ['results']['E13']['answer_label'])
-            E13_001.append(
-                labeled_results[i]['results']['E13_001']['answer_label'])
-            E13_002.append(
-                labeled_results[i]['results']['E13_002']['answer_label'])
-            E14.append(labeled_results[i]['results']
-                       ['E14']['answer_label'].strip())
-            E15.append(labeled_results[i]['results']['E15']['answer_label'])
-            if(labeled_results[i]['results']['E15']['answer_label'] == "Non"):
-                E16.append("NA")
-            else:
-                E16.append(labeled_results[i]['results']
-                           ['E16']['answer_label'].strip())
             try:
 
                 E18.append(labeled_results[i]['results']
@@ -245,6 +382,11 @@ class GetKoboData:
               #  print("cette question n'existe pas ")
                # print(E18)
             HF.append(labeled_results[i]['results']['HF']['answer_label'].strip())
+
+
+
+
+
 
     # C6.append(labeled_results[i]['results']['C6']['answer_label'].strip())
 
@@ -349,9 +491,12 @@ class GetKoboData:
             labeled_results[0]['results']['E18']['label'][0:-2].strip(): E18,
             labeled_results[0]['results']['HF']['label'][0:-2].strip(): HF, }
         #print(data)
-        #for tab in data.values():
-           # print(len(tab))
         return pd.DataFrame(data)
+        #i=0
+        #for tab in data.values():
+
+           #print("tab" ,len(tab))
+
 
 # kobdata = GetKoboData()
 # labeld_results = kobdata.getAllData()
