@@ -13,7 +13,7 @@ class GetKoboData:
     def getAllData(self):
         assets = self.kobo.list_assets()
         print("A")
-        asset_uid = assets['results'][0]['uid']
+        asset_uid = assets['results'][1]['uid']
         print("B")
         asset = self.kobo.get_asset(asset_uid)
         print("C")
@@ -26,7 +26,7 @@ class GetKoboData:
         for result in results:
             labeled_results.append(self.kobo.label_result(
                 unlabeled_result=result, choice_lists=choice_lists, questions=questions, unpack_multiples=True))
-
+        print(labeled_results)
         return labeled_results
 
     def getDapsDataFrame(self, labeled_results):
@@ -391,7 +391,7 @@ class GetKoboData:
     # C6.append(labeled_results[i]['results']['C6']['answer_label'].strip())
 
         data = {
-            labeled_results[0]['results']['No']['label'][0:-2]: N0,
+            labeled_results[0]['results']['No']['label'][0:-1]: N0,
             labeled_results[0]['results']['A1']['label'][0:-2]: A1,
             labeled_results[0]['results']['A2']['label'][0:-2]: A2,
             labeled_results[0]['results']['A3']['label'][0:-2]: A3,
@@ -490,7 +490,8 @@ class GetKoboData:
             labeled_results[0]['results']['E16']['label'][0:-2].strip(): E16,
             labeled_results[0]['results']['E18']['label'][0:-2].strip(): E18,
             labeled_results[0]['results']['HF']['label'][0:-2].strip(): HF, }
-        #print(data)
+         #print(data)
+        print(data)
         return pd.DataFrame(data)
         #i=0
         #for tab in data.values():

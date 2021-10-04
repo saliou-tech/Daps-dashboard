@@ -50,20 +50,21 @@ import dash_table
 kobdata=GetKoboData()
 labeld_results=kobdata.getAllData()
 df1=kobdata.getDapsDataFrame(labeld_results)
+print(df1.columns)
 df1.rename(columns={'Quel est le statut de votre structure  ?':'statut'}, inplace=True)
-
+#df1.rename(columns={'Numero questionnaire ':'Numero questionnaire :' }, inplace=True)
 df_medaille=df1.groupby(['Quel est le nom de votre structure','statut'])[["Combien de médailles d'or avez-vous gagné niveau international","Combien de médailles d'or avez-vous gagné par les femmes niveau international","Combien de médailles d'or avez-vous gagné par les hommes niveau international"]].sum().reset_index()
 df_org=""
 count_statut=df1['statut'].value_counts(sort=True, ascending=True)
 test1=df1['Le nombre de femmes actives élèves arbitres'].sum()
 nbre=int(test1[-1])
 df1.rename(columns={"Date d’interview(jj/mm/aa) ":'Date'}, inplace=True)
-df1.rename(columns={'Numero questionnaire ':'nombre enquetes'}, inplace=True)
 
-nbr_enquete_par_jour=df1.groupby("Date").count()['nombre enquetes'].reset_index()
-nbr_enquete_par_jour[['Date','nombre enquetes']]
 
-fig2 = px.bar(nbr_enquete_par_jour, x='Date', y='nombre enquetes',color='nombre enquetes',title="Nombre d'enquetes par jour")
+nbr_enquete_par_jour=df1.groupby("Date").count()['Numero questionnaire :' ].reset_index()
+nbr_enquete_par_jour[['Date','Numero questionnaire :' ]]
+
+fig2 = px.bar(nbr_enquete_par_jour, x='Date', y='Numero questionnaire :' ,color='Numero questionnaire :' ,title="Nombre d'enquetes par jour")
 
 fig3=go.Figure()
 
@@ -637,9 +638,9 @@ def getComponent(columns,df11,value ):
 def update_output(value):
 
      #print(value)
-     ##nbr_enquete_par_jour=df5.groupby("Date").count()['nombre enquetes'].reset_index()
+     ##nbr_enquete_par_jour=df5.groupby("Date").count()['Numero questionnaire :' ].reset_index()
 
-     #fig8 = px.bar(nbr_enquete_par_jour, x='Date', y='nombre enquetes',color='nombre enquetes',title="Nombre d'enquetes par jour")
+     #fig8 = px.bar(nbr_enquete_par_jour, x='Date', y='Numero questionnaire :' ,color='Numero questionnaire :' ,title="Nombre d'enquetes par jour")
      df00=df1[['statut','Quel est le nom de votre structure']]
      df0=df00[df00['statut'] == value]
      df11=df0['Quel est le nom de votre structure']
@@ -657,9 +658,9 @@ def update_output(value):
 def update_output_1(value):
 
      #print(value)
-     ##nbr_enquete_par_jour=df5.groupby("Date").count()['nombre enquetes'].reset_index()
+     ##nbr_enquete_par_jour=df5.groupby("Date").count()['Numero questionnaire :' ].reset_index()
 
-     #fig8 = px.bar(nbr_enquete_par_jour, x='Date', y='nombre enquetes',color='nombre enquetes',title="Nombre d'enquetes par jour")
+     #fig8 = px.bar(nbr_enquete_par_jour, x='Date', y='Numero questionnaire :' ,color='Numero questionnaire :' ,title="Nombre d'enquetes par jour")
     # df00=df1[['statut','Quel est le nom de votre structure']]
      #df0=df00[df00['statut'] == value]
      df11=df1[df1['Quel est le nom de votre structure']==value]
