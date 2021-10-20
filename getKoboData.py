@@ -13,7 +13,7 @@ class GetKoboData:
     def getAllData(self):
         assets = self.kobo.list_assets()
         print("A")
-        asset_uid = assets['results'][2]['uid']
+        asset_uid = assets['results'][3]['uid']
         print("B")
         asset = self.kobo.get_asset(asset_uid)
         print("C")
